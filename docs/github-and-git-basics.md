@@ -1,6 +1,6 @@
 # Git And GitHub Basics For This Project
 
-Plain answers about git commands used in the tutorial — especially `git add`, `git commit -am`, and what “tracked” means.
+Plain answers about git commands used in the tutorial, especially `git add`, `git commit -am`, and what “tracked” means.
 
 ---
 
@@ -47,7 +47,7 @@ git ls-tree -r HEAD  # everything in the last commit
 
 ---
 
-## `git add` — Tell Git To Include Files
+## `git add`: Tell Git To Include Files
 
 ```bash
 git add .              # stage all new/changed files (respects .gitignore)
@@ -58,7 +58,7 @@ git add train.py       # stage one file
 
 ---
 
-## `git commit -am "message"` — What The Flags Mean
+## `git commit -am "message"`: What The Flags Mean
 
 ```bash
 git commit -am "new changes"
@@ -91,7 +91,7 @@ git push origin main
 
 That is **misleading for a first push** with many **new** files. `-a` will **not** stage `train.py`, `Makefile`, `data/drug.csv`, etc. if they were never committed before.
 
-**First push with a new project — use:**
+**First push with a new project: use**
 
 ```bash
 git add .
@@ -110,7 +110,7 @@ git push origin main
 
 ## What `.gitignore` Does
 
-Files matching [`.gitignore`](../.gitignore) (e.g. `.venv/`, `__pycache__/`) are **ignored** — Git will not track them unless you force-add.
+Files matching [`.gitignore`](../.gitignore) (e.g. `.venv/`, `__pycache__/`) are **ignored**; Git will not track them unless you force-add.
 
 This repo does **not** ignore `data/`, `model/`, or `results/`, so those **can** be committed if you choose to.
 
@@ -123,7 +123,7 @@ This repo does **not** ignore `data/`, `model/`, or `results/`, so those **can**
 | First commit with new files | `git add .` then `git commit -m "..."` |
 | Edit existing tracked files | `git commit -am "..."` OK |
 | See what will be committed | `git status` |
-| New file never added | **Not** included by `-a` — need `git add` |
+| New file never added | **Not** included by `-a`; need `git add` |
 
 ---
 

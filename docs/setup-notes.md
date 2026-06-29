@@ -68,7 +68,7 @@ The `---` block at the top is **Space configuration**, not normal readme prose.
 | `colorFrom`, `colorTo` | Gradient on the **Space card** thumbnail only (Hub listing) |
 | `sdk` | Runtime type (`gradio`) |
 | `sdk_version` | Gradio version HF installs |
-| `app_file` | Entry script (e.g. `drug_app.py`) — must match your file |
+| `app_file` | Entry script (e.g. `drug_app.py`); must match your file |
 | `pinned` | Pin Space to top of your profile |
 | `license` | Optional Hub metadata |
 
@@ -127,17 +127,17 @@ pipe = sio.load("model/drug_pipeline.skops", trusted=...)  # see skops docs for 
 
 ### What “Pickle Can Run Arbitrary Code” Means (Plain Language)
 
-When you **load** a pickle/joblib file, Python does not just read numbers. It **follows instructions inside the file** to rebuild objects. Those instructions can, in principle, tell Python to run **any code** — not only “create a RandomForest.”
+When you **load** a pickle/joblib file, Python does not just read numbers. It **follows instructions inside the file** to rebuild objects. Those instructions can, in principle, tell Python to run **any code**, not only “create a RandomForest.”
 
 A **normal** model file: “rebuild this sklearn pipeline.”
 
-A **malicious** model file: “read environment variables / delete files / run malware” — and that runs the moment someone calls `joblib.load()` or `pickle.load()`.
+A **malicious** model file: “read environment variables / delete files / run malware”, and that runs the moment someone calls `joblib.load()` or `pickle.load()`.
 
 So the security issue is not “using pickle is always dangerous.” It is: **loading a file from a source you do not trust is like running a program you did not review.**
 
 ### When Security Actually Matters (Concrete Scenarios)
 
-#### Low Risk — Pickle/Joblib Is Fine
+#### Low Risk: Pickle/Joblib Is Fine
 
 These are the common cases in development and in **this tutorial** if you control the whole pipeline:
 
@@ -146,9 +146,9 @@ These are the common cases in development and in **this tutorial** if you contro
 - The model file lives in **your private repo**, only you can push to it, and you review what gets deployed.
 - You never download someone else’s `.pkl` / `.joblib` from the internet and load it blindly.
 
-For this drug-classifier project — your GitHub repo, your Actions, your HF Space — **the practical security gap between joblib and skops is small.** Either works if you trust your own pipeline.
+For this drug-classifier project (your GitHub repo, your Actions, your HF Space), **the practical security gap between joblib and skops is small.** Either works if you trust your own pipeline.
 
-#### Real Risk — Be Careful With Pickle/Joblib
+#### Real Risk: Be Careful With Pickle/Joblib
 
 Security starts to matter when **you load a model file you did not create or cannot verify**:
 
@@ -156,7 +156,7 @@ Security starts to matter when **you load a model file you did not create or can
 |----------|-----------------|
 | Download a `model.pkl` from an unknown Hugging Face user, forum, or email attachment | The file may contain hidden malicious load instructions. |
 | A **public repo accepts model uploads** from strangers (issues, PRs with binary artifacts) and CI auto-deploys them | An attacker could submit a malicious pickle; your server loads it on deploy. |
-| **Account or repo compromise** — someone else replaces `model.joblib` in your repo or Space | Your app still calls `load()` automatically; it will execute whatever is in the new file. |
+| **Account or repo compromise** (someone else replaces `model.joblib` in your repo or Space) | Your app still calls `load()` automatically; it will execute whatever is in the new file. |
 | **Shared ML platform** where users upload models and the platform loads them for inference | Classic pickle attack surface; platforms often ban pickle or use sandboxing. |
 | Running `joblib.load()` on artifacts from a **compromised CI cache** or untrusted third-party build | Same as loading any untrusted binary. |
 
@@ -164,7 +164,7 @@ Important nuance: **“Deployed on Hugging Face” alone does not make pickle da
 
 #### Where Skops Helps
 
-`skops` does not load arbitrary pickle blobs. It reads a structured file, lists which Python types are inside, and **only reconstructs them if you explicitly allow those types** (`trusted=...`). That adds a review step: “these are the types in this file — do I expect them?”
+`skops` does not load arbitrary pickle blobs. It reads a structured file, lists which Python types are inside, and **only reconstructs them if you explicitly allow those types** (`trusted=...`). That adds a review step: “these are the types in this file; do I expect them?”
 
 It is **not perfect security** (you can still approve bad types, or trust a library with bugs). It is **better than pickle when the file might be tampered with or come from an untrusted publisher.** sklearn’s [model persistence docs](https://scikit-learn.org/stable/model_persistence.html) recommend considering skops when sharing models.
 
@@ -176,14 +176,14 @@ Reasonable motivations:
 - Aligns with **public model sharing** on Hugging Face (safer default when strangers might download your artifact).
 - Matches current sklearn / Hub guidance for shared models.
 
-Weakness of the tutorial: it never explains **why** — it only says “save with skops.”
+Weakness of the tutorial: it never explains **why**; it only says “save with skops.”
 
 ### What To Use In This Repo
 
 | Context | Suggestion |
 |---------|------------|
 | Notebook / local experiments only | **joblib** is simple and standard. |
-| This CI/CD project (train in Actions → load in Space) | **skops** (tutorial) or **joblib** — both fine if you control GitHub and HF access. |
+| This CI/CD project (train in Actions → load in Space) | **skops** (tutorial) or **joblib**; both fine if you control GitHub and HF access. |
 | Publishing models for others to download and run | Prefer **skops**; never ask strangers to `pickle.load()` your file. |
 | Loading a random model from the internet | Inspect the source first; prefer skops or ONNX/safe formats; **never** `joblib.load()` an untrusted pickle. |
 

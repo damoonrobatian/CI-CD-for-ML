@@ -1,6 +1,6 @@
 # ML Preprocessing And Model Saving
 
-Plain answers about sklearn pieces in this project — including where the tutorial oversimplifies or gets things wrong.
+Plain answers about sklearn pieces in this project, including where the tutorial oversimplifies or gets things wrong.
 
 ---
 
@@ -14,7 +14,7 @@ Example from our [train.py](../train.py):
 - **One-hot** encoding for `Sex` (nominal)
 - **Impute + scale** for `Age`, `Na_to_K`
 
-One object, one `.fit()` / `.predict()` path — same steps at training and inference.
+One object, one `.fit()` / `.predict()` path: same steps at training and inference.
 
 ---
 
@@ -28,7 +28,7 @@ The tutorial uses `OrdinalEncoder` on all categorical columns. That is a **short
 | `BP` | Ordinal (LOW < NORMAL < HIGH) | `OrdinalEncoder` with **explicit** `categories=[['LOW','NORMAL','HIGH']]` |
 | `Cholesterol` | Debatable | One-hot or explicit ordinal |
 
-Default `OrdinalEncoder()` uses **alphabetical** order (e.g. HIGH=0, LOW=1, NORMAL=2) — wrong even for BP.
+Default `OrdinalEncoder()` uses **alphabetical** order (e.g. HIGH=0, LOW=1, NORMAL=2), which is wrong even for BP.
 
 Random Forest tolerates this on a small dataset; **principle still matters** for learning and for linear models.
 
@@ -54,10 +54,10 @@ categories=[
 
 When **transform** sees a category that was **not in training data**:
 
-- **`'error'`** (default) — crash
-- **`'ignore'`** — output all zeros for that column’s one-hot features (safer at inference)
+- **`'error'`** (default): crash
+- **`'ignore'`**: output all zeros for that column’s one-hot features (safer at inference)
 
-Example: training only had `Sex` = M/F; at predict time someone sends an invalid value — with `'ignore'`, the model gets zeros instead of an exception.
+Example: training only had `Sex` = M/F; at predict time someone sends an invalid value. With `'ignore'`, the model gets zeros instead of an exception.
 
 `OrdinalEncoder` defaults to `'error'` for unknown categories unless you configure otherwise.
 
@@ -85,7 +85,7 @@ ColumnTransformer([
 ])
 ```
 
-`ColumnTransformer` steps run **in parallel** on the **original** columns — they do not chain. Result:
+`ColumnTransformer` steps run **in parallel** on the **original** columns; they do not chain. Result:
 
 - Duplicate numeric columns (imputed unscaled + scaled originals)
 - Scaler does not see imputed values
@@ -110,7 +110,7 @@ pipe = sio.load("model/model.skops", trusted=...)
 pipe.predict([[age, sex, bp, cholesterol, na_to_k]])
 ```
 
-**Without** a pipeline you would duplicate encoders/scalers in `drug_app.py` — easy to get wrong.
+**Without** a pipeline you would duplicate encoders/scalers in `drug_app.py`, which is easy to get wrong.
 
 **joblib works the same way** for saving the full pipeline:
 

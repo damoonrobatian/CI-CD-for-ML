@@ -2,7 +2,7 @@
 
 **Doc index:** [README.md](./README.md)
 
-How to handle datasets and model files in ML projects — and why the DataCamp tutorial commits a small CSV to GitHub.
+How to handle datasets and model files in ML projects, and why the DataCamp tutorial commits a small CSV to GitHub.
 
 ---
 
@@ -168,5 +168,5 @@ For learning CI/CD mechanics, plain Git (or gitignore + Kaggle download in CI) i
 
 ## Related Docs
 
-- [setup-notes.md](./setup-notes.md) — Kaggle download, project Q&A
-- DataCamp **course** (not this tutorial): [CI/CD for Machine Learning](https://www.datacamp.com/courses/cicd-for-machine-learning) — covers DVC in depth
+- [setup-notes.md](./setup-notes.md): Kaggle download, project Q&A
+- DataCamp **course** (not this tutorial): [CI/CD for Machine Learning](https://www.datacamp.com/courses/cicd-for-machine-learning), covers DVC in depth

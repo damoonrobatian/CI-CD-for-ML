@@ -56,8 +56,8 @@ Your **conda env on your laptop** is a separate environment.
 
 | Location | Installed? |
 |----------|------------|
-| **GitHub Actions runner** | Yes — via `iterative/setup-cml@v2` in `ci.yml` (tutorial) |
-| **This repo’s `requirements.txt`** | Not by default — tutorial uses the Action, not `pip install cml` |
+| **GitHub Actions runner** | Yes, via `iterative/setup-cml@v2` in `ci.yml` (tutorial) |
+| **This repo’s `requirements.txt`** | Not by default; tutorial uses the Action, not `pip install cml` |
 | **Your laptop** | Only if you run `pip install cml` yourself |
 
 Locally, `make eval` will fail with “command not found” until CML is installed **and** configured with a GitHub token. The tutorial expects `eval` to run **in CI**.
@@ -66,7 +66,7 @@ Locally, `make eval` will fail with “command not found” until CML is install
 
 ## What Is CML?
 
-**CML** (Continuous Machine Learning) — [cml.dev](https://cml.dev/) — tools from Iterative (same ecosystem as DVC) to report ML results on GitHub.
+**CML** (Continuous Machine Learning), [cml.dev](https://cml.dev/), tools from Iterative (same ecosystem as DVC) to report ML results on GitHub.
 
 In this project it is used to **publish training metrics** where you can see them on the website (commit/PR), not only in Actions logs.
 
@@ -100,24 +100,24 @@ cml comment create report.md
 | Part | Meaning |
 |------|---------|
 | `cml` | Run the CML program |
-| `comment` | Create a **GitHub comment** (a message on the website) — **not** a git commit |
+| `comment` | Create a **GitHub comment** (a message on the website), **not** a git commit |
 | `create` | Make a new comment |
-| `report.md` | **Input file** — CML reads this and uses it as the comment body |
+| `report.md` | **Input file**; CML reads this and uses it as the comment body |
 
 Plain English: **“Post the contents of `report.md` as a GitHub discussion comment on this CI run.”**
 
-Like `mail < letter.txt` — the command does not say “read,” but it reads the file as input.
+Like `mail < letter.txt`: the command does not say “read,” but it reads the file as input.
 
 ---
 
-## Comment Vs Commit — Do Not Mix Them Up
+## Comment Vs Commit: Do Not Mix Them Up
 
 | | **Git commit** | **GitHub comment** |
 |---|----------------|-------------------|
 | What | Snapshot of repo files | Message on PR/commit page |
 | Created by | `git commit` | CML / GitHub API |
 | Contains | Tracked files you committed | Markdown text (and embedded images via CML) |
-| Is `report.md` in the repo? | Only if **you** `git add` it | **No** — comment is separate from repo files |
+| Is `report.md` in the repo? | Only if **you** `git add` it | **No**; comment is separate from repo files |
 
 The PNG is **not inside the git commit** because of CML. CML uploads/displays the image **inside the comment** on GitHub’s UI. Your commit still only has whatever you pushed with git.
 

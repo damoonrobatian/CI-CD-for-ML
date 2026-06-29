@@ -17,7 +17,7 @@ If you already know bash or Python scripts, the main mental shift is: **a Makefi
 | **`make`** | A program installed on your system (like `python` or `bash`) |
 | **`Makefile`** | A text file that tells `make` what commands to run |
 
-**File name:** usually `Makefile` — capital M, **no extension** (not `Makefile.sh`, not `Makefile.txt`). `makefile` (lowercase) also works.
+**File name:** usually `Makefile`, capital M, **no extension** (not `Makefile.sh`, not `Makefile.txt`). `makefile` (lowercase) also works.
 
 **How you use it:**
 
@@ -164,7 +164,7 @@ train:
 train:
     python train.py
 ```
-(spaces — `make` will error: `missing separator`.)
+(spaces: `make` will error: `missing separator`.)
 
 This is an old format requirement, not a stylistic choice.
 
@@ -190,8 +190,8 @@ install:
 	pip install -r requirements.txt
 ```
 
-- `&&` — run the next command only if the previous succeeded  
-- `\` — line continuation (one logical line)
+- `&&`: run the next command only if the previous succeeded  
+- `\`: line continuation (one logical line)
 
 This is exactly what our `install` target does.
 
@@ -218,7 +218,7 @@ eval: train
 
 Then `make eval` would run the `train` target first, then the `eval` recipe.
 
-Our CI does **not** rely on this — it calls `make train` and `make eval` as separate workflow steps in order.
+Our CI does **not** rely on this; it calls `make train` and `make eval` as separate workflow steps in order.
 
 ---
 
@@ -318,7 +318,7 @@ Runs `black` on `*.py`. Optional style check in CI.
 
 ### `train`
 
-Runs `train.py` — the real ML work (fit pipeline, save metrics, confusion matrix, model). **This is where learning happens**; the Makefile only wraps one shell command.
+Runs `train.py`, the real ML work (fit pipeline, save metrics, confusion matrix, model). **This is where learning happens**; the Makefile only wraps one shell command.
 
 ### `eval`
 

@@ -4,9 +4,9 @@ Loads data, fits a sklearn Pipeline (preprocessing + RandomForest), evaluates on
 a held-out test set, then writes artifacts used by GitHub Actions (CML report) and
 deployment (Gradio app on Hugging Face):
 
-  - results/metrics.json       — accuracy and macro F1
+  - results/metrics.json       (accuracy and macro F1)
   - results/confusion_matrix.png
-  - model/model.skops          — full pipeline for inference (load + predict)
+  - model/model.skops          (full pipeline for inference: load + predict)
 """
 
 import json
@@ -74,7 +74,7 @@ transform = ColumnTransformer(
         ),
         (
             "num",
-            # Impute then scale in sequence (see docs/setup-notes.md — tutorial pattern is wrong).
+            # Impute then scale in sequence (see docs/setup-notes.md; tutorial pattern is wrong).
             Pipeline(
                 [
                     ("imputer", SimpleImputer(strategy="median")),

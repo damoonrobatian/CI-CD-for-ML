@@ -1,18 +1,20 @@
 # CI-CD-For-ML
 
-Drug classification CI/CD project (scikit-learn + GitHub Actions + Hugging Face Spaces).
+Hands-on tutorial repo for **CI/CD for machine learning**: Makefile targets, GitHub Actions, CML metrics reports, and Hugging Face Spaces deployment. A small scikit-learn pipeline on sample tabular data is the **example workload**; the learning goal is the CI/CD mechanics, not the classification task.
 
-Based on the [DataCamp CI/CD for ML tutorial](https://www.datacamp.com/tr/tutorial/ci-cd-for-machine-learning), with clearer docs and corrected ML preprocessing.
+Based on the [DataCamp CI/CD for ML tutorial](https://www.datacamp.com/tr/tutorial/ci-cd-for-machine-learning), with clearer docs and corrected preprocessing in the example pipeline.
 
 ## Student Documentation
 
-Start here: **[docs/README.md](docs/README.md)**
+**Follow the tutorial in order:** **[docs/tutorial.md](docs/tutorial.md)**
+
+Appendix and Q&A: [docs/README.md](docs/README.md)
 
 | Topic | Document |
 |-------|----------|
+| **Full CI/CD walkthrough** | **[docs/tutorial.md](docs/tutorial.md)** |
 | Setup (HF, Kaggle, licenses) | [docs/setup-notes.md](docs/setup-notes.md) |
-| Makefile / `make train` | [docs/makefile-tutorial-brief.md](docs/makefile-tutorial-brief.md) |
-| Git (`git add`, `-am`, tracked files) | [docs/github-and-git-basics.md](docs/github-and-git-basics.md) |
-| Actions runner, CML | [docs/github-actions-and-cml.md](docs/github-actions-and-cml.md) |
-| sklearn pipelines, encoders | [docs/ml-preprocessing-and-models.md](docs/ml-preprocessing-and-models.md) |
-| Data in git, DVC, LFS | [docs/data-in-git-dvc-lfs.md](docs/data-in-git-dvc-lfs.md) |
+| Makefile reference | [docs/makefile-tutorial-brief.md](docs/makefile-tutorial-brief.md) |
+| Git basics | [docs/github-and-git-basics.md](docs/github-and-git-basics.md) |
+| ML preprocessing | [docs/ml-preprocessing-and-models.md](docs/ml-preprocessing-and-models.md) |
+| Data / DVC / LFS | [docs/data-in-git-dvc-lfs.md](docs/data-in-git-dvc-lfs.md) |
