@@ -2,6 +2,10 @@
 
 Brief answers to questions raised while working through the DataCamp CI/CD for ML tutorial.
 
+**Full doc index:** [docs/README.md](./README.md)
+
+---
+
 ## DataCamp Tutorial Access
 
 - `https://app.datacamp.com/learn/tutorials/ci-cd-for-machine-learning` requires a DataCamp login; the interactive app area is not accessible without an account.
@@ -188,3 +192,12 @@ Weakness of the tutorial: it never explains **why** — it only says “save wit
 - **pickle/joblib:** convenient, universal, fine for **your own** files.
 - **skops:** same job for sklearn pipelines, with a **clearer trust boundary** when files are **shared, public, or might be tampered with**.
 - **This tutorial:** security is a minor concern in practice; skops is a defensible modern choice, not a fix for an urgent local-only threat.
+
+### Saving The Full Pipeline (Not Just The Model)
+
+The tutorial says loading the file “works out of the box without processing your data in the app.” That refers to saving the **entire sklearn `Pipeline`** (preprocessors + classifier), not to skops being special:
+
+- `pipe.predict(raw_features)` runs encoding/scaling inside the pipeline.
+- **joblib** can save the same pipeline the same way; skops adds safer loading for **untrusted** files (see above).
+
+Details: [ml-preprocessing-and-models.md](./ml-preprocessing-and-models.md).

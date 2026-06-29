@@ -1,5 +1,7 @@
 # Data In Git, Git LFS, And DVC
 
+**Doc index:** [README.md](./README.md)
+
 How to handle datasets and model files in ML projects — and why the DataCamp tutorial commits a small CSV to GitHub.
 
 ---

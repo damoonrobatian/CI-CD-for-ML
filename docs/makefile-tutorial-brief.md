@@ -1,5 +1,7 @@
 # Makefile — Brief Guide
 
+**Doc index:** [README.md](./README.md) · **Full tutorial:** [makefile-tutorial.md](./makefile-tutorial.md)
+
 **Short version.** For the full beginner tutorial, see [makefile-tutorial.md](./makefile-tutorial.md).
 
 ---

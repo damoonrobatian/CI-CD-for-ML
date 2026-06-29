@@ -1,5 +1,7 @@
 # Makefile Tutorial (For Complete Beginners)
 
+**Doc index:** [README.md](./README.md) · **Short version:** [makefile-tutorial-brief.md](./makefile-tutorial-brief.md)
+
 **Prefer a short summary?** See [makefile-tutorial-brief.md](./makefile-tutorial-brief.md).
 
 This guide explains what a `Makefile` is, how the `make` program uses it, and how our CI/CD project relies on one. No prior experience with `make` is assumed.
@@ -403,3 +405,5 @@ line \         = continue recipe on next line
 
 - GNU Make manual (official, dense): https://www.gnu.org/software/make/manual/
 - Our CI setup notes: [setup-notes.md](./setup-notes.md)
+- GitHub Actions and CML: [github-actions-and-cml.md](./github-actions-and-cml.md)
+- Git basics (`git add`, `-am`): [github-and-git-basics.md](./github-and-git-basics.md)
