@@ -4,7 +4,7 @@ A step-by-step guide to build a drug-classification pipeline with **GitHub Actio
 
 **How to use this doc:** work through the sections **in order**. Do not skip to GitHub Actions until `make train` works locally.
 
-**Appendix docs** (optional deep dives): [docs/README.md](./README.md)
+**Appendix docs** (optional deep dives): [docs/README.md](./README.md) · [github-actions-ci-yml.md](./github-actions-ci-yml.md) (`ci.yml` line-by-line)
 
 ---
 

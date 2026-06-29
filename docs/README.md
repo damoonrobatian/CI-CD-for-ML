@@ -22,6 +22,7 @@ Use these when you want more detail on a specific question:
 | [makefile-tutorial-brief.md](./makefile-tutorial-brief.md) | Makefile quick reference |
 | [makefile-tutorial.md](./makefile-tutorial.md) | Makefile full guide |
 | [github-and-git-basics.md](./github-and-git-basics.md) | Tracked files, `git add`, `-am` |
+| [github-actions-ci-yml.md](./github-actions-ci-yml.md) | `ci.yml` workflow deep dive |
 | [github-actions-and-cml.md](./github-actions-and-cml.md) | Runners, CML comments (expanded) |
 | [ml-preprocessing-and-models.md](./ml-preprocessing-and-models.md) | Encoders, ColumnTransformer |
 | [data-in-git-dvc-lfs.md](./data-in-git-dvc-lfs.md) | Data in git, DVC, LFS |
@@ -35,5 +36,6 @@ Use these when you want more detail on a specific question:
 | Full CI/CD walkthrough | [tutorial.md](./tutorial.md) |
 | Do I need HF bucket mount? | [setup-notes.md](./setup-notes.md) |
 | What is `make train`? | [tutorial.md §5](./tutorial.md) · [makefile-tutorial-brief.md](./makefile-tutorial-brief.md) |
+| What is in `ci.yml`? | [github-actions-ci-yml.md](./github-actions-ci-yml.md) · [tutorial.md §8](./tutorial.md) |
 | What is an Actions runner? | [tutorial.md §8](./tutorial.md) · [github-actions-and-cml.md](./github-actions-and-cml.md) |
 | Why not DataCamp’s git `-am`? | [tutorial.md §7](./tutorial.md) |

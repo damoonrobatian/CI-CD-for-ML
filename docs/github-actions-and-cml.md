@@ -40,7 +40,7 @@ It is **not** your laptop. It is **not** “inside” the git repo as a file.
 Example from the tutorial workflow:
 
 ```yaml
-- uses: iterative/setup-cml@v2   # installs `cml` on the runner
+- uses: iterative/setup-cml@v3   # installs `cml` on the runner
 - run: make install                # pip installs from requirements.txt
 - run: make train
 - run: make eval
@@ -56,7 +56,7 @@ Your **conda env on your laptop** is a separate environment.
 
 | Location | Installed? |
 |----------|------------|
-| **GitHub Actions runner** | Yes, via `iterative/setup-cml@v2` in `ci.yml` (tutorial) |
+| **GitHub Actions runner** | Yes, via `iterative/setup-cml@v3` in `ci.yml` |
 | **This repo’s `requirements.txt`** | Not by default; tutorial uses the Action, not `pip install cml` |
 | **Your laptop** | Only if you run `pip install cml` yourself |
 
@@ -128,11 +128,13 @@ The PNG is **not inside the git commit** because of CML. CML uploads/displays th
 From the tutorial:
 
 ```yaml
-permissions: write-all          # allow posting comments
+permissions:
+  contents: read
+  pull-requests: write   # CML needs this to post comments
 
-- uses: iterative/setup-cml@v2
+- uses: iterative/setup-cml@v3
 
-- name: Evaluation
+- name: Publish metrics report
   env:
     REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   run: make eval
@@ -159,4 +161,4 @@ Actions runner (temporary Linux VM)
 
 ---
 
-**See also:** [makefile-tutorial-brief.md](./makefile-tutorial-brief.md), [github-and-git-basics.md](./github-and-git-basics.md)
+**See also:** [github-actions-ci-yml.md](./github-actions-ci-yml.md) (full `ci.yml` walkthrough), [makefile-tutorial-brief.md](./makefile-tutorial-brief.md), [github-and-git-basics.md](./github-and-git-basics.md)
