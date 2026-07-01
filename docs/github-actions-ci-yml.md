@@ -10,7 +10,9 @@ This document explains [`.github/workflows/ci.yml`](../.github/workflows/ci.yml)
 
 ## What This File Does (One Paragraph)
 
-When you push to `main`, open a pull request targeting `main`, or manually start the workflow, GitHub spins up a temporary Linux VM, copies your repo onto it, installs Python and CML, then runs the same three Makefile targets you use locally: `make install`, `make train`, and `make eval`. Training writes metrics and a model under `results/` and `model/` on that VM (those files are **not** pushed back to GitHub). `make eval` builds a markdown report and CML posts it as a **comment** on the commit or PR. When the job finishes, the VM is deleted.
+When you push to `main`, open a pull request targeting `main`, or manually start the workflow, GitHub spins up a temporary Linux VM, copies your repo onto it, installs Python and CML, then runs the same three Makefile targets you use locally: `make install`, `make train`, and `make eval`.
+
+During `make train`, the runner creates files on **its own disk** (for example `results/metrics.json`, `results/confusion_matrix.png`, `model/model.skops`). Your workflow does **not** run `git add`, `git commit`, or `git push` for those files, so they **never appear as new files in your GitHub repo**. Reviewers see metrics through the CML **comment** (`make eval`), not because the repo was updated. When the job finishes, the VM is deleted and those files are gone unless you add separate upload or commit steps.
 
 ---
 

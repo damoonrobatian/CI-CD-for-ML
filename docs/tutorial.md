@@ -14,8 +14,8 @@ We improve on the [DataCamp CI/CD tutorial](https://www.datacamp.com/tr/tutorial
 
 | Topic | You will be able to explain |
 |-------|-----------------------------|
-| **CI (Continuous Integration)** | Automated checks that run when code is pushed (here: install deps, train, report metrics) |
-| **CD (Continuous Deployment)** | Automated publish of a working demo after CI succeeds |
+| **CI (Continuous Integration)** | Automated integration build + validation on push/PR (here: install, train, report metrics on a clean runner) |
+| **CD (Continuous Deployment)** | Automated publish to a user-facing demo environment after checks pass (here: Hugging Face Space) |
 | **Makefile / targets** | Named commands (`install`, `train`, `eval`) shared by you and CI |
 | **GitHub Actions** | YAML workflow that runs on a temporary cloud VM |
 | **CML** | Posts training results as a **GitHub comment**, not a git commit |
@@ -49,17 +49,83 @@ Hugging Face Space runs your Gradio app with the trained model
 
 ## 1. CI/CD In Plain Language
 
-**Without CI/CD:** you change code, run training on your laptop, hope you did not break anything, and manually share results.
+Read this section carefully before you touch `ci.yml`. Most confusion about GitHub Actions comes from mixing up **where code runs** and **what "CI" means**.
 
-**With CI:** every push can automatically reinstall dependencies, retrain, and publish metrics. Broken code is caught early, on a clean machine that matches what teammates use.
+### 1.1 Three Machines, Three Jobs
 
-**With CD:** after CI passes, a workflow can upload the app and model to a demo host (here: Hugging Face Space).
+Training and `pip install` do **not** happen only on the runner. They happen in **three separate places**, each with a different purpose:
 
-Important distinction for this course:
+| Machine | Who uses it | What runs there in this project |
+|---------|-------------|----------------------------------|
+| **Your laptop** | You while developing | `pip install`, `make train`, [experiments.ipynb](../experiments.ipynb) |
+| **GitHub Actions runner** | Automation on push/PR | Same Makefile targets again, on a **clean temporary VM** |
+| **Hugging Face Space** (later) | End users of the demo | Gradio app loads the model and **predicts**; it does not retrain on every git push |
 
-- **GitHub** = where code and automation live
-- **Actions runner** = a short-lived computer GitHub spins up to run your workflow (not your laptop, not a file inside the repo)
-- **Hugging Face Space** = a public demo URL (useful for portfolios and teaching; real products often use AWS/GCP with stricter controls)
+The runner does **not** replace your laptop or production/demo. You still develop locally. The Space still serves the app. The runner adds an **automatic check** when code reaches GitHub.
+
+```text
+Local:     you develop and train
+Runner:    auto-check that the repo trains cleanly (Section 8)
+HF Space:  demo / inference after you deploy (Section 10)
+```
+
+### 1.2 What "CI" And "CD" Mean (Vocabulary Matters)
+
+Tutorials (including DataCamp) often say "CI" loosely. Three ideas are worth separating:
+
+**Classical Continuous Integration:** developers merge into a shared mainline **often**. Each merge triggers an **integration build**: combine the latest code, build/package it, run tests. "Integration" means *does the combined codebase still work together?* It is **not** the same as shipping to users.
+
+**What many people call "CI" today:** any workflow on push/PR that runs `install` + tests. In ML repos that often includes **retraining** and metric reports. That is closer to **automated verification** or a **CI pipeline**, even when the label on GitHub still says "Continuous Integration."
+
+**Continuous Delivery / Deployment (CD):** automating promotion of a good build into an **environment users see** (staging, demo URL, production). Integrating changes **into the user-facing system** is CD territory, not what `ci.yml` does today.
+
+**What this repo's `ci.yml` honestly is:**
+
+| Step in workflow | Category |
+|------------------|----------|
+| Checkout repo at this commit | Integration build (test the integrated tree) |
+| `make install`, `make train` | Validation / reproducibility on a clean machine |
+| `make eval` (CML comment) | Reporting for reviewers (not a git commit, not deploy) |
+| Upload to Hugging Face Space | **Not in `ci.yml`**; that is Section 10 (CD) |
+
+So when we say "CI" in this course, we mean: **on every push/PR to `main`, automatically verify that the repo still installs, trains, and produces metrics**, without using your laptop and **without** updating the live demo.
+
+### 1.3 Why GitHub Needs A Runner At All
+
+**GitHub stores your repo; it does not execute your Python code** when you push. Files on github.com are storage and a website (PRs, comments, Actions UI). Something else must run `pip install` and `python train.py` for automation. That something is the **runner**: a real Linux VM GitHub starts for one job, then deletes.
+
+**Why checkout (copy) the repo onto the runner?** The VM starts empty. It does not have your `train.py`, `Makefile`, or `data/drug.csv` until `actions/checkout` clones the repo at **that commit** onto the runner's disk. Then `make train` works the same way as on your laptop: commands run inside a project folder.
+
+**Why run the same commands again if you already ran them locally?** Because CI answers a different question:
+
+| Question | Answered by |
+|----------|-------------|
+| Does it work on **my** machine right now? | Local `make train` |
+| Does the **repo** work on a **clean** machine when anyone pushes? | Runner `make train` |
+| Can **users** try the model in a browser? | Hugging Face Space (after CD) |
+
+Local environments hide problems: forgotten pip packages, old conda state, "works on my machine." The runner reruns your Makefile on a fresh OS so the **repository** is tested, not just your personal setup.
+
+**What the runner is not doing:** it is not deploying to users, and it is not the only place training ever happens. Artifacts on the runner (`results/`, `model/`) live on that disk for minutes; they are **not** committed to GitHub. Reviewers see metrics via a **CML comment**, not new files in the repo.
+
+You **could** skip GitHub Actions for a solo hobby project and only use local runs plus manual deploy. Teams add CI so nobody has to remember to rerun checks and so merges are verified the same way for everyone.
+
+### 1.4 Without vs With Automation
+
+**Without CI/CD:** you change code, train on your laptop, hope nothing broke, and manually tell teammates or paste metrics.
+
+**With CI (this repo):** every push/PR to `main` can automatically reinstall dependencies, retrain on a clean runner, and post metrics as a GitHub comment. Broken code is caught before or right after merge.
+
+**With CD (later):** after CI succeeds, a workflow can upload the app and model to Hugging Face Space so others can use the demo without cloning the repo.
+
+### 1.5 Names To Keep Straight
+
+| Name | One-line role |
+|------|----------------|
+| **GitHub repo** | Code, data, workflow YAML; does not run training by itself |
+| **Actions runner** | Temporary computer that runs `make install` / `train` / `eval` for CI |
+| **CML** | Posts training results as a **comment** on the commit/PR page |
+| **Hugging Face Space** | Public demo URL (portfolio/teaching; real products often use AWS/GCP instead) |
 
 ---
 
@@ -99,7 +165,7 @@ CI-CD-for-ML/
 └── README.md
 ```
 
-**Generated folders** (`model/`, `results/`) appear after `make train`. CI creates them on the runner during a job; they are not automatically pushed back to GitHub unless you add extra steps.
+**Generated folders** (`model/`, `results/`) appear after `make train` on your laptop. In CI, the same files are created on the **runner's disk** during the job. They are not committed to GitHub automatically; CML shows metrics in a PR/commit comment instead. When the job ends, the runner is removed and those files are gone.
 
 ---
 
@@ -343,6 +409,8 @@ More git detail: [github-and-git-basics.md](./github-and-git-basics.md).
 
 ### 8.1 What CI Does In This Repo
 
+Section 1 explains **why** a runner exists and what "CI" means in this course. Here is **what happens** when CI runs.
+
 When you push to `main` or open a pull request targeting `main`, GitHub:
 
 1. Starts a **runner** (temporary Ubuntu VM)
@@ -350,7 +418,7 @@ When you push to `main` or open a pull request targeting `main`, GitHub:
 3. Runs `make install`, `make train`, `make eval`
 4. Destroys the VM
 
-Software installed during the job lives **only on that runner**. It is not added to your repo automatically.
+This is **validation and reporting on a clean machine**, not deployment to users (Section 10). Software installed during the job lives **only on that runner**. Training outputs are not committed to the repo; CML shows metrics in a comment instead.
 
 See Section 7.5 for what “pull request targeting `main`” means and when to use a PR vs a direct push.
 
