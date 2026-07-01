@@ -91,7 +91,7 @@ ColumnTransformer([
 - Scaler does not see imputed values
 - With missing data, scaler can fail on NaN
 
-It “works” on the clean drug dataset because there are no missing values and Random Forest is forgiving. See the demo cell in [notebook.ipynb](../notebook.ipynb).
+It “works” on the clean drug dataset because there are no missing values and Random Forest is forgiving. See the demo cell in [experiments.ipynb](../experiments.ipynb).
 
 ---
 
@@ -137,4 +137,4 @@ Match Python version to `python_version` in [app/README.md](../app/README.md) if
 
 ---
 
-**See also:** [train.py](../train.py), [setup-notes.md](./setup-notes.md) (skops security), [notebook.ipynb](../notebook.ipynb)
+**See also:** [train.py](../train.py), [setup-notes.md](./setup-notes.md) (skops security), [experiments.ipynb](../experiments.ipynb)

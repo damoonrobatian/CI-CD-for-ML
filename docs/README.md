@@ -36,6 +36,7 @@ Use these when you want more detail on a specific question:
 | Full CI/CD walkthrough | [tutorial.md](./tutorial.md) |
 | Do I need HF bucket mount? | [setup-notes.md](./setup-notes.md) |
 | What is `make train`? | [tutorial.md §5](./tutorial.md) · [makefile-tutorial-brief.md](./makefile-tutorial-brief.md) |
+| Notebook vs `train.py`? | [tutorial.md §4](./tutorial.md) · [experiments.ipynb](../experiments.ipynb) |
 | What is in `ci.yml`? | [github-actions-ci-yml.md](./github-actions-ci-yml.md) · [tutorial.md §8](./tutorial.md) |
 | What is an Actions runner? | [tutorial.md §8](./tutorial.md) · [github-actions-and-cml.md](./github-actions-and-cml.md) |
 | Why not DataCamp’s git `-am`? | [tutorial.md §7](./tutorial.md) |
